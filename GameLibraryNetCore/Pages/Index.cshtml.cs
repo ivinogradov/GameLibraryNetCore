@@ -10,6 +10,7 @@ namespace GameLibraryNetCore.Pages
 {
     public class IndexModel : PageModel
     {
+        public string Time { get; set; }
         private readonly ILogger<IndexModel> _logger;
 
         public IndexModel(ILogger<IndexModel> logger)
@@ -19,7 +20,7 @@ namespace GameLibraryNetCore.Pages
 
         public void OnGet()
         {
-
+            Time = DateTime.Now.ToShortTimeString();
         }
     }
 }
