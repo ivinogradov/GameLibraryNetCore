@@ -9,6 +9,7 @@
   <ItemGroup>
     <Folder Include="Models\" />
     <Folder Include="Pages\Games\" />
+    <Folder Include="Api\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.2" />
