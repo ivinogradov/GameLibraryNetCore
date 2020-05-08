@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 
 namespace GameLibraryNetCore
 {
@@ -25,9 +26,15 @@ namespace GameLibraryNetCore
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
+            services.AddControllers();
 
             services.AddDbContext<AppDbContext>(options =>
                     options.UseSqlite(Configuration.GetConnectionString("AppDbContext")));
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,6 +67,20 @@ namespace GameLibraryNetCore
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
+                endpoints.MapControllerRoute(
+                    name: "api",
+                    pattern: "api/{controller}/{action}/{id?}"
+                );
+            });
+
+            // Enable middleware to serve generated Swagger as JSON endpoint
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, CSS, JS, etc.)
+            // Specify the Swagger JSON endpoint
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API v1");
             });
         }
     }
